@@ -1,0 +1,81 @@
+name: Lunes Auto Login
+
+on:
+  workflow_dispatch:
+    inputs:
+      next_path:
+        description: '登录后跳转的路径'
+        required: false
+        default: '/'
+        type: string
+
+jobs:
+  login:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          # 移除 cache: 'pip'
+
+      - name: 📦 Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-v1
+          # 移除 hashFiles，使用固定版本号
+
+      - name: 📚 Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install playwright
+
+      - name: 🌐 Install Playwright Chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: |
+          playwright install chromium
+
+      - name: 🔧 Install Playwright system dependencies
+        run: |
+          playwright install-deps chromium
+
+      - name: 🚀 Run login script
+        env:
+          CI: 'true'
+          LUNES_EMAIL: ${{ secrets.LUNES_EMAIL }}
+          LUNES_PASSWORD: ${{ secrets.LUNES_PASSWORD }}
+          LUNES_NEXT_PATH: ${{ inputs.next_path || '/' }}
+        run: |
+          python lunes_login.py
+
+      - name: 📸 Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-${{ github.run_number }}
+          path: |
+            *.png
+          retention-days: 7
+
+      - name: 📹 Upload trace files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: traces-${{ github.run_number }}
+          path: '*_trace_*.zip'
+          retention-days: 7
+
+      - name: 🍪 Upload cookies
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cookies-${{ github.run_number }}
+          path: cookies.json
+          retention-days: 1
