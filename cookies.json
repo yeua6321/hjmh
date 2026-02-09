@@ -1,0 +1,44 @@
+[
+  {
+    "name": "_cfuvid",
+    "value": "d4lMnS4zEqrXgtYg_6RgZ9jcUrL7.H2eXf_qQ7_BrYQ-1770489388.3942375-1.0.1.1-8ljDu4TZLh8HtP1hVgfw1s._pHajDOCzrANHk1fby6E",
+    "domain": ".challenges.cloudflare.com",
+    "path": "/",
+    "expires": -1,
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "None"
+  },
+  {
+    "name": "cf_clearance",
+    "value": "bKSHiaBccXsN4BBJHigo1LdIZ9RyKHua9e9rLj0gNxA-1770489389-1.2.1.1-EHT.nF4N2BAtWvft4x4tI2OfmBR5b5fbNJKv9rcx8IrHqGIiVBo5igUxxXvoyYyKKneIn.jBMawlrbqhH0NrvSwGhOftRonZBgmYExPGzjbMYGx4jUeuD4e0yeZWDUSuCoG_MpWNx6B0LNG75Y62rCUemu1JledAc4kRMtFZx5bC2Bb_FjbiP.GLwj4oxrV1gKKQk90L894Cjruv6pSHmZmqo2IG0zUWLh7ZU7i3iqo",
+    "domain": ".lunes.host",
+    "path": "/",
+    "expires": 1802025367.870827,
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "None",
+    "partitionKey": "https://lunes.host",
+    "_crHasCrossSiteAncestor": false
+  },
+  {
+    "name": "session",
+    "value": "AjwBrLnPEKf59c1nPPIGYhjTJq4jO_fLMyftjJUhLO4",
+    "domain": "betadash.lunes.host",
+    "path": "/",
+    "expires": 1773167777.845517,
+    "httpOnly": true,
+    "secure": false,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "test_cookie",
+    "value": "CheckForPermission",
+    "domain": ".doubleclick.net",
+    "path": "/",
+    "expires": 1770490280.076145,
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "None"
+  }
+]
