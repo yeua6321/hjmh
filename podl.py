@@ -366,4 +366,71 @@ def main():
         print("="*60)
         print("\n配置方法:")
         print("  方法1: 直接在脚本中修改 EMAIL 和 PASSWORD 变量")
-        print("  方法2: 设置环境变量 LUNES_EMAIL 和 
+        print("  方法2: 设置环境变量 LUNES_EMAIL 和 LUNES_PASSWORD")
+        print("\n示例 (Windows):")
+        print('  set LUNES_EMAIL=your@email.com')
+        print('  set LUNES_PASSWORD=yourpassword')
+        print("\n示例 (Mac/Linux):")
+        print('  export LUNES_EMAIL=your@email.com')
+        print('  export LUNES_PASSWORD=yourpassword')
+        print("\n示例 (GitHub Actions):")
+        print('  在 Repository Settings → Secrets 中设置:')
+        print('    LUNES_EMAIL')
+        print('    LUNES_PASSWORD')
+        print("="*60 + "\n")
+        return 1
+
+    print("\n" + "="*60)
+    print("🚀 Lunes 自动登录脚本 (带 Trace 记录)")
+    print("="*60)
+    print(f"📧 邮箱: {EMAIL}")
+    print(f"🔑 密码: {'*' * len(PASSWORD)}")
+    print(f"🌍 环境: {'CI' if IS_CI else 'Local'}")
+    print("="*60)
+
+    # 运行登录
+    cookies = asyncio.run(login())
+
+    if cookies:
+        print("\n" + "="*60)
+        print("✅ 成功获取 Cookies")
+        print("="*60)
+
+        print(f"\n📋 Cookie 数量: {len(cookies)}")
+        print("\nCookie 详情:")
+        for i, cookie in enumerate(cookies, 1):
+            value = cookie['value'][:50] if len(cookie['value']) > 50 else cookie['value']
+            print(f"  {i}. {cookie['name']}: {value}...")
+
+        # 保存 cookies
+        with open('cookies.json', 'w', encoding='utf-8') as f:
+            json.dump(cookies, f, indent=2, ensure_ascii=False)
+
+        print("\n💾 Cookies 已保存到: cookies.json")
+        print("="*60)
+
+        print("\n🎉 登录流程完成!")
+        print("\n📹 Trace 文件说明:")
+        print("  - 使用 Trace Viewer 可以查看详细的操作记录")
+        print("  - 包含: 截图、DOM 快照、网络请求、时间线等")
+        print("  - 非常适合调试和分析问题")
+        print("="*60 + "\n")
+        return 0
+    else:
+        print("\n" + "="*60)
+        print("❌ 登录失败")
+        print("="*60)
+        print("\n🔍 调试建议:")
+        print("  1. 查看保存的截图文件 (login_failed.png 或 error.png)")
+        print("  2. 使用 Trace Viewer 查看详细过程:")
+        print("     playwright show-trace failed_trace_*.zip")
+        print("  3. 检查邮箱和密码是否正确")
+        print("  4. 确认网络连接正常")
+        if IS_CI:
+            print("  5. CI 环境可能被 Cloudflare 拦截，考虑使用代理")
+        print("="*60 + "\n")
+        return 1
+
+
+if __name__ == "__main__":
+    exit(main())
