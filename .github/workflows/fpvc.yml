@@ -64,4 +64,6 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: cookies-${{ github.run_number 
+          name: cookies-${{ github.run_number }}
+          path: cookies.json
+          retention-days: 1 
